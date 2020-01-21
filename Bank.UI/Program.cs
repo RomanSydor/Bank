@@ -11,17 +11,17 @@ namespace Bank.UI
     {
         static void Main(string[] args)
         {
-            bool check = false;
             Menu menu = new Menu();
-            
+
             Console.Write(menu.Greeting);
             Console.WriteLine(menu.Services);
+            bool check;
             do
             {
                 menu.Choose = Console.ReadLine();
-                if (int.TryParse(menu.Choose, out int result))
+                if (int.TryParse(menu.Choose, out int result) && result >= 1 && result <= 4)
                 {
-                    Console.WriteLine($"Your choice: {menu.Choose}");
+                    Console.WriteLine($"Your choice: {result}");
                     check = false;
                 }
                 else
