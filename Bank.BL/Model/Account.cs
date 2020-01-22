@@ -18,11 +18,11 @@ namespace Bank.BL.Model
         }
         public double IncreaseBalance(double sum)
         {
-            return Balance - sum;
+            return Balance + sum;
         }
         public double ReduceBalance(double sum) 
         {
-            return Balance + sum;
+            return Balance - sum;
         }
         public Account(int id, double balance, string owner) 
         {
