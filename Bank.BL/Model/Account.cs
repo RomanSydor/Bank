@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bank.BL.Model
 {
-    public abstract class Account
+    public class Account
     {
         public int Id { get; set; }
         public double Balance { get; set; }

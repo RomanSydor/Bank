@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bank.BL;
+using Bank.BL.Model;
+using Bank.BL.Service;
 
 namespace Bank.UI
 {
@@ -23,6 +24,15 @@ namespace Bank.UI
                 {
                     Console.WriteLine($"Your choice: {result}");
                     check = false;
+                    switch (menu.Choose) 
+                    {
+                        case "1":
+                            GetCustomerInfo customerInfo = new GetCustomerInfo();
+                            CreateAccount account = new CreateAccount();
+                            customerInfo.GetInfo();
+                            account.Creating(customerInfo.firstName, customerInfo.lastName, customerInfo.birthDate);
+                            break;
+                    }
                 }
                 else
                 {
