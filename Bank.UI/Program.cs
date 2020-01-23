@@ -56,7 +56,7 @@ namespace Bank.UI
                             } while (check);
                             break;
                         case "2":
-                            Console.Write("Input amount of top up: $");
+                            Console.Write("Input amount of replenishment: $");
                             menu.Sum = double.Parse(Console.ReadLine()); // TODO check top up input
                             account.Balance += menu.Sum;
                             Console.WriteLine($"{account.ToString()}\nTime: {DateTime.Now}");

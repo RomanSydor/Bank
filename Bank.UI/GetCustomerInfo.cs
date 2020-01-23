@@ -20,7 +20,7 @@ namespace Bank.UI
             LastName = Console.ReadLine();
             Console.Write("Input date of your birth(mm.dd.yyyy): ");
             BirthDate = DateTime.Parse(Console.ReadLine()); // TODO add TryParse to dataTime
-            Console.Write("Start top up: $");
+            Console.Write("Start replenishment: $");
             StartBalance = double.Parse(Console.ReadLine());
         }
     }
