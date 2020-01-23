@@ -14,7 +14,7 @@ namespace Bank.BL.Model
         public DateTime Created { get; set; }
         public override string ToString()
         {
-            return $"Account: {Id}\nOwner: {Owner}\nMoney: {Balance}\nCreated: {Created}";
+            return $"Account: {Id}\nOwner: {Owner}\nMoney: ${Balance}\nCreated: {Created}";
         }
         public double IncreaseBalance(double sum)
         {
@@ -24,9 +24,10 @@ namespace Bank.BL.Model
         {
             return Balance - sum;
         }
-        public Account(int id, double balance, string owner) 
+        static int counter = 0;
+        public Account(double balance, string owner) 
         {
-            Id = id;
+            Id = ++counter;
             Balance = balance;
             Owner = owner;
             Created = DateTime.Now;

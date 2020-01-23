@@ -14,9 +14,10 @@ namespace Bank.BL.Model
         public DateTime BirthDate { get; set; }
         public override string ToString()
         {
-            return $"Customer:{FirstName} {LastName}\nId: {Id}\nDate of birth: {BirthDate}";
+            return $"Customer:{FirstName} {LastName}\nId: {Id}\nDate of birth: {BirthDate.ToShortDateString()}";
         }
-        public Customer(int id, string firstName, string lastName, DateTime birthDate)
+        static int counter = 0;
+        public Customer(string firstName, string lastName, DateTime birthDate)
         {
             if (string.IsNullOrWhiteSpace(firstName))
             {
@@ -30,7 +31,7 @@ namespace Bank.BL.Model
             {
                 throw new ArgumentException("Invalid date of birth!", nameof(birthDate));
             }
-            Id = id;
+            Id = ++counter;
             FirstName = firstName;
             LastName = lastName;
             BirthDate = birthDate;

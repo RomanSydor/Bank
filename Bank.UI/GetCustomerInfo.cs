@@ -8,17 +8,20 @@ namespace Bank.UI
 {
     public class GetCustomerInfo
     {
-        public string firstName;
-        public string lastName;
-        public DateTime birthDate;
+        public string FirstName;
+        public string LastName;
+        public DateTime BirthDate;
+        public double StartBalance;
         public void GetInfo() 
         {
             Console.Write("Input your first name: ");
-            firstName = Console.ReadLine();
+            FirstName = Console.ReadLine();
             Console.Write("Input your last name: ");
-            lastName = Console.ReadLine();
+            LastName = Console.ReadLine();
             Console.Write("Input date of your birth(mm.dd.yyyy): ");
-            birthDate = DateTime.Parse(Console.ReadLine()); // TODO add TryParse
+            BirthDate = DateTime.Parse(Console.ReadLine()); // TODO add TryParse
+            Console.Write("Start top up: ");
+            StartBalance = double.Parse(Console.ReadLine());
         }
     }
 }

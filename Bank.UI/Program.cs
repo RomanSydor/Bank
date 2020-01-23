@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bank.BL.Model;
-using Bank.BL.Service;
+using Bank.BL;
 
 namespace Bank.UI
 {
@@ -14,8 +14,7 @@ namespace Bank.UI
         {
             Menu menu = new Menu();
             GetCustomerInfo customerInfo = new GetCustomerInfo();
-            CreateAccount createAccount = new CreateAccount();
-
+            
             Console.Write(menu.Greeting);
             bool check;
             do
@@ -24,13 +23,17 @@ namespace Bank.UI
                 menu.Choose = Console.ReadLine();
                 if (int.TryParse(menu.Choose, out int result) && result >= 1 && result <= 4)
                 {
-                    Console.WriteLine($"Your choice: {result}");
+                    Console.WriteLine($"\nYour choice: {result}\n");
                     check = false;
                     switch (menu.Choose) 
                     {
                         case "1":
+                            Console.WriteLine("_Registration_");
                             customerInfo.GetInfo();
-                            createAccount.Creating(customerInfo.firstName, customerInfo.lastName, customerInfo.birthDate, 0.0); // TODO fix bag with top upping
+                            Customer customer = new Customer(customerInfo.FirstName, customerInfo.LastName, customerInfo.BirthDate);
+                            Account account = new Account(customerInfo.StartBalance, (customer.FirstName + " " + customer.LastName));
+                            Console.WriteLine($"\nAccount was created!\n{customer.ToString()}\n\n{account.ToString()}");
+                            
                             do
                             {
                                 Console.WriteLine(menu.ReturnToMenu);
@@ -51,10 +54,9 @@ namespace Bank.UI
                             } while (check);
                             break;
                         case "2":
-                            Console.Write(menu.TopUpString);
-                            menu.TopUp = double.Parse(Console.ReadLine()); // TODO check top up input
-                            //createAccount.account.IncreaseBalance(menu.TopUp);
-                            //Console.WriteLine($"Owner: {createAccount.account.Owner}\nYour balance: ${createAccount.account.Balance}");
+                            Console.Write("Input amount of top up: ");
+                            menu.TopUp = double.Parse(Console.ReadLine()); // TODO check top up inpup
+                            
                             do
                             {
                                 Console.WriteLine(menu.ReturnToMenu);
