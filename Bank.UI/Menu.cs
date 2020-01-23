@@ -11,7 +11,7 @@ namespace Bank.UI
         public string Services { get; } = "1)Create account;\n2)Top up your account;\n3)Withdraw money;\n4)Close accuont;";
         public string Greeting { get; } = "We are welcome you in RS Bank!\n\nPlease choose one of services:\n";
         public string ReturnToMenu { get; } = "\nDo you want to return to the menu?\n1)yes\n2)no";
-        public double TopUp { get; set; }
+        public double Sum { get; set; }
         public string Choose { get; set; }
     }
 }

@@ -14,16 +14,16 @@ namespace Bank.BL.Model
         public DateTime Created { get; set; }
         public override string ToString()
         {
-            return $"Account: {Id}\nOwner: {Owner}\nMoney: ${Balance}\nCreated: {Created}";
+            return $"Account: {Id}\nOwner: {Owner}\nMoney: ${Balance}\nCreated: {Created.ToShortDateString()}";
         }
-        public double IncreaseBalance(double sum)
-        {
-            return Balance + sum;
-        }
-        public double ReduceBalance(double sum) 
-        {
-            return Balance - sum;
-        }
+        //public double IncreaseBalance(double sum)
+        //{
+        //    return Balance + sum;
+        //}
+        //public double ReduceBalance(double sum) 
+        //{
+        //    return Balance - sum;
+        //}
         static int counter = 0;
         public Account(double balance, string owner) 
         {
@@ -31,6 +31,11 @@ namespace Bank.BL.Model
             Balance = balance;
             Owner = owner;
             Created = DateTime.Now;
+        }
+
+        public Account() 
+        {
+
         }
     }
 }

@@ -14,7 +14,9 @@ namespace Bank.UI
         {
             Menu menu = new Menu();
             GetCustomerInfo customerInfo = new GetCustomerInfo();
-            
+            Account account = new Account();
+            Customer customer = new Customer();
+
             Console.Write(menu.Greeting);
             bool check;
             do
@@ -30,8 +32,8 @@ namespace Bank.UI
                         case "1":
                             Console.WriteLine("_Registration_");
                             customerInfo.GetInfo();
-                            Customer customer = new Customer(customerInfo.FirstName, customerInfo.LastName, customerInfo.BirthDate);
-                            Account account = new Account(customerInfo.StartBalance, (customer.FirstName + " " + customer.LastName));
+                            customer = new Customer(customerInfo.FirstName, customerInfo.LastName, customerInfo.BirthDate);
+                            account = new Account(customerInfo.StartBalance, (customer.FirstName + " " + customer.LastName));
                             Console.WriteLine($"\nAccount was created!\n{customer.ToString()}\n\n{account.ToString()}");
                             
                             do
@@ -54,9 +56,60 @@ namespace Bank.UI
                             } while (check);
                             break;
                         case "2":
-                            Console.Write("Input amount of top up: ");
-                            menu.TopUp = double.Parse(Console.ReadLine()); // TODO check top up inpup
-                            
+                            Console.Write("Input amount of top up: $");
+                            menu.Sum = double.Parse(Console.ReadLine()); // TODO check top up input
+                            account.Balance += menu.Sum;
+                            Console.WriteLine($"{account.ToString()}\nTime: {DateTime.Now}");
+
+                            do
+                            {
+                                Console.WriteLine(menu.ReturnToMenu);
+                                menu.Choose = Console.ReadLine();
+                                if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
+                                {
+                                    check = false;
+                                    if (menu.Choose == "1")
+                                    {
+                                        goto start;
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nInvalid input!\nPleace, repeat:");
+                                    check = true;
+                                }
+                            } while (check);
+                            break;
+                        case "3":
+                            Console.Write("Input the output amount: $");
+                            menu.Sum = double.Parse(Console.ReadLine()); // TODO check output input
+                            account.Balance -= menu.Sum;
+                            Console.WriteLine($"{account.ToString()}\nTime: {DateTime.Now}");
+
+                            do
+                            {
+                                Console.WriteLine(menu.ReturnToMenu);
+                                menu.Choose = Console.ReadLine();
+                                if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
+                                {
+                                    check = false;
+                                    if (menu.Choose == "1")
+                                    {
+                                        goto start;
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nInvalid input!\nPleace, repeat:");
+                                    check = true;
+                                }
+                            } while (check);
+                            break;
+                        case "4": // TODO create deleting account logic!!!!
+                            account = new Account(0.0, "");
+                            customer = new Customer("", "", DateTime.MinValue);
+                            Console.WriteLine($"\nAccount was deleted!\n{customer.ToString()}\n\n{account.ToString()}");
+
                             do
                             {
                                 Console.WriteLine(menu.ReturnToMenu);

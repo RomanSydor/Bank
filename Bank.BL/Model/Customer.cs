@@ -36,5 +36,9 @@ namespace Bank.BL.Model
             LastName = lastName;
             BirthDate = birthDate;
         }
+        public Customer() 
+        {
+
+        }
     }
 }
