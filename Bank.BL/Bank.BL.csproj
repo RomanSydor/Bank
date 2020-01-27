@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BankEvents.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

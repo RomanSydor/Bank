@@ -13,9 +13,9 @@ namespace Bank.UI
         static void Main(string[] args)
         {
             Menu menu = new Menu();
-            GetCustomerInfo customerInfo = new GetCustomerInfo();
             Account account = new Account();
             Customer customer = new Customer();
+            BankEvents events = new BankEvents();
 
             Console.Write(menu.Greeting);
             bool check;
@@ -23,7 +23,7 @@ namespace Bank.UI
             {
         start:  Console.WriteLine(menu.Services);
                 menu.Choose = Console.ReadLine();
-                if (int.TryParse(menu.Choose, out int result) && result >= 1 && result <= 4)
+                if (int.TryParse(menu.Choose, out int result) && result >= 1 && result <= 5)
                 {
                     Console.WriteLine($"\nYour choice: {result}\n");
                     check = false;
@@ -31,11 +31,8 @@ namespace Bank.UI
                     {
                         case "1":
                             Console.WriteLine("_Registration_");
-                            customerInfo.GetInfo();
-                            customer = new Customer(customerInfo.FirstName, customerInfo.LastName, customerInfo.BirthDate);
-                            account = new Account(customerInfo.StartBalance, (customer.FirstName + " " + customer.LastName));
-                            Console.WriteLine($"\nAccount was created!\n{customer.ToString()}\n\n{account.ToString()}");
-                            
+                            events.OpenAccount();
+
                             do
                             {
                                 Console.WriteLine(menu.ReturnToMenu);
@@ -55,12 +52,21 @@ namespace Bank.UI
                                 }
                             } while (check);
                             break;
+                        
                         case "2":
-                            Console.Write("Input amount of replenishment: $");
-                            menu.Sum = double.Parse(Console.ReadLine()); // TODO check top up input
-                            account.Balance += menu.Sum;
-                            Console.WriteLine($"{account.ToString()}\nTime: {DateTime.Now}");
-
+                            
+                            try
+                            {
+                                Console.Write("Id: ");
+                                int id = int.Parse(Console.ReadLine());
+                                Console.Write("Input amount of replenishment: $");
+                                menu.Sum = double.Parse(Console.ReadLine()); // TODO check top up input
+                                events.TopUpAccount(menu.Sum, id);
+                            }
+                            catch (IndexOutOfRangeException)
+                            {
+                                Console.WriteLine("Account wasn't found!");
+                            }
                             do
                             {
                                 Console.WriteLine(menu.ReturnToMenu);
@@ -80,11 +86,21 @@ namespace Bank.UI
                                 }
                             } while (check);
                             break;
+                       
                         case "3":
-                            Console.Write("Input the output amount: $");
-                            menu.Sum = double.Parse(Console.ReadLine()); // TODO check output input
-                            account.Balance -= menu.Sum;
-                            Console.WriteLine($"{account.ToString()}\nTime: {DateTime.Now}");
+                            
+                            try
+                            {
+                                Console.Write("Id: ");
+                                int id = int.Parse(Console.ReadLine());
+                                Console.Write("Input the output amount: $");
+                                menu.Sum = double.Parse(Console.ReadLine()); // TODO check output input
+                                events.WithdrawMoney(menu.Sum, id);
+                            }
+                            catch (IndexOutOfRangeException)
+                            {
+                                Console.WriteLine("Account wasn't found!");
+                            }
 
                             do
                             {
@@ -105,11 +121,51 @@ namespace Bank.UI
                                 }
                             } while (check);
                             break;
-                        case "4": // TODO create deleting account logic!!!!
-                            account = new Account(0.0, "");
-                            customer = new Customer("", "", DateTime.MinValue);
-                            Console.WriteLine($"\nAccount was deleted!\n{customer.ToString()}\n\n{account.ToString()}");
+                     
+                        case "4":
+                             
+                            try
+                            {
+                                Console.Write("Id: ");
+                                int id = int.Parse(Console.ReadLine());
+                                events.DeleteAccount(id);
+                            }
+                            catch (IndexOutOfRangeException)
+                            {
+                                Console.WriteLine("Account wasn't found!");
+                            }
 
+                            do
+                            {
+                                Console.WriteLine(menu.ReturnToMenu);
+                                menu.Choose = Console.ReadLine();
+                                if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
+                                {
+                                    check = false;
+                                    if (menu.Choose == "1")
+                                    {
+                                        goto start;
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nInvalid input!\nPleace, repeat:");
+                                    check = true;
+                                }
+                            } while (check);
+                            break;
+
+                        case "5":// TODO fix issue with account review
+                            try
+                            {
+                                Console.Write("Id: ");
+                                int id = int.Parse(Console.ReadLine());
+                                Console.WriteLine(events.accounts[id].ToString());
+                            }
+                            catch (IndexOutOfRangeException) 
+                            {
+                                Console.WriteLine("Account wasn't found!");
+                            }
                             do
                             {
                                 Console.WriteLine(menu.ReturnToMenu);

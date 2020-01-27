@@ -16,14 +16,14 @@ namespace Bank.BL.Model
         {
             return $"Account: {Id}\nOwner: {Owner}\nMoney: ${Balance}\nCreated: {Created.ToShortDateString()}";
         }
-        //public double IncreaseBalance(double sum)
-        //{
-        //    return Balance + sum;
-        //}
-        //public double ReduceBalance(double sum) 
-        //{
-        //    return Balance - sum;
-        //}
+        public void IncreaseBalance(double sum)
+        {
+            Balance += sum;
+        }
+        public void ReduceBalance(double sum)
+        {
+            Balance -= sum;
+        }
         static int counter = 0;
         public Account(double balance, string owner) 
         {
