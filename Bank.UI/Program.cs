@@ -23,26 +23,39 @@ namespace Bank.UI
             {
         start:  Console.WriteLine(menu.Services);
                 menu.Choose = Console.ReadLine();
-                if (int.TryParse(menu.Choose, out int result) && result >= 1 && result <= 5)
+                Console.Clear();
+                if (int.TryParse(menu.Choose, out int result) && result >= 1 && result <= 6)
                 {
-                    Console.WriteLine($"\nYour choice: {result}\n");
+                    Console.WriteLine($"Your choice: {result}\n");
                     check = false;
                     switch (menu.Choose) 
                     {
                         case "1":
+                            try 
+                            { 
                             Console.WriteLine("_Registration_");
                             events.OpenAccount();
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Invalid format!");
+                            }
 
                             do
                             {
                                 Console.WriteLine(menu.ReturnToMenu);
                                 menu.Choose = Console.ReadLine();
+                                Console.Clear();
                                 if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
                                 {
                                     check = false;
                                     if (menu.Choose == "1")
                                     {
                                         goto start;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Thanks for choosing us, bye!");
                                     }
                                 }
                                 else
@@ -54,14 +67,18 @@ namespace Bank.UI
                             break;
                         
                         case "2":
-                            
+
                             try
                             {
                                 Console.Write("Id: ");
                                 int id = int.Parse(Console.ReadLine());
                                 Console.Write("Input amount of replenishment: $");
-                                menu.Sum = double.Parse(Console.ReadLine()); // TODO check top up input
+                                menu.Sum = double.Parse(Console.ReadLine());
                                 events.TopUpAccount(menu.Sum, id);
+                            }
+                            catch (FormatException) 
+                            {
+                                Console.WriteLine("Invalid format!");
                             }
                             catch (IndexOutOfRangeException)
                             {
@@ -71,12 +88,17 @@ namespace Bank.UI
                             {
                                 Console.WriteLine(menu.ReturnToMenu);
                                 menu.Choose = Console.ReadLine();
+                                Console.Clear();
                                 if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
                                 {
                                     check = false;
                                     if (menu.Choose == "1")
                                     {
                                         goto start;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Thanks for choosing us, bye!");
                                     }
                                 }
                                 else
@@ -94,8 +116,12 @@ namespace Bank.UI
                                 Console.Write("Id: ");
                                 int id = int.Parse(Console.ReadLine());
                                 Console.Write("Input the output amount: $");
-                                menu.Sum = double.Parse(Console.ReadLine()); // TODO check output input
+                                menu.Sum = double.Parse(Console.ReadLine());
                                 events.WithdrawMoney(menu.Sum, id);
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Invalid format!");
                             }
                             catch (IndexOutOfRangeException)
                             {
@@ -106,12 +132,17 @@ namespace Bank.UI
                             {
                                 Console.WriteLine(menu.ReturnToMenu);
                                 menu.Choose = Console.ReadLine();
+                                Console.Clear();
                                 if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
                                 {
                                     check = false;
                                     if (menu.Choose == "1")
                                     {
                                         goto start;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Thanks for choosing us, bye!");
                                     }
                                 }
                                 else
@@ -130,6 +161,10 @@ namespace Bank.UI
                                 int id = int.Parse(Console.ReadLine());
                                 events.DeleteAccount(id);
                             }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Invalid format!");
+                            }
                             catch (IndexOutOfRangeException)
                             {
                                 Console.WriteLine("Account wasn't found!");
@@ -139,12 +174,17 @@ namespace Bank.UI
                             {
                                 Console.WriteLine(menu.ReturnToMenu);
                                 menu.Choose = Console.ReadLine();
+                                Console.Clear();
                                 if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
                                 {
                                     check = false;
                                     if (menu.Choose == "1")
                                     {
                                         goto start;
+                                    }
+                                    else 
+                                    {
+                                        Console.WriteLine("Thanks for choosing us, bye!");
                                     }
                                 }
                                 else
@@ -155,14 +195,18 @@ namespace Bank.UI
                             } while (check);
                             break;
 
-                        case "5":// TODO fix issue with account review
+                        case "5":
                             try
                             {
                                 Console.Write("Id: ");
                                 int id = int.Parse(Console.ReadLine());
-                                Console.WriteLine(events.accounts[id].ToString());
+                                events.FindAccount(id);
                             }
-                            catch (IndexOutOfRangeException) 
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Invalid format!");
+                            }
+                            catch (IndexOutOfRangeException)
                             {
                                 Console.WriteLine("Account wasn't found!");
                             }
@@ -170,12 +214,17 @@ namespace Bank.UI
                             {
                                 Console.WriteLine(menu.ReturnToMenu);
                                 menu.Choose = Console.ReadLine();
+                                Console.Clear();
                                 if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
                                 {
                                     check = false;
                                     if (menu.Choose == "1")
                                     {
                                         goto start;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Thanks for choosing us, bye!");
                                     }
                                 }
                                 else
@@ -184,6 +233,9 @@ namespace Bank.UI
                                     check = true;
                                 }
                             } while (check);
+                            break;
+                        case "6":
+                            Console.WriteLine("Thanks for choosing us, bye!");
                             break;
                     }
                 }

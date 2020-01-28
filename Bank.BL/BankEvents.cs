@@ -10,16 +10,8 @@ namespace Bank.BL
     public class BankEvents
     {
         public Account Account = new Account();
-        public Account[] accounts = new Account[1];
-        //public Account FindAccount(int id)
-        //{
-        //    for (int i = 0; i < accounts.Length; i++)
-        //    {
-        //        if (accounts[i].Id == id)
-        //            return accounts[i];
-        //    }
-        //    return null;
-        //}
+        public Account[] accounts;
+
         public void OpenAccount()
         {        
             Console.Write("Input your first name: ");
@@ -30,6 +22,7 @@ namespace Bank.BL
             DateTime birthDate = DateTime.Parse(Console.ReadLine()); // TODO add TryParse to dataTime
             Console.Write("Start replenishment: $");
             double startBalance = double.Parse(Console.ReadLine());
+            Console.Clear();
             Customer customer = new Customer(firstName, lastName, birthDate);
             Account account = new Account(startBalance, (customer.FirstName + " " + customer.LastName));
             if (account == null)
@@ -38,19 +31,26 @@ namespace Bank.BL
             }
             else 
             {
-                Account[] tempAccounts = new Account[accounts.Length + 1];
-                for (int i = 0; i < accounts.Length; i++) 
+                if (accounts == null)
                 {
-                    tempAccounts[i] = accounts[i];
-                    tempAccounts[tempAccounts.Length - 1] = account;
-                    accounts = tempAccounts;
+                    accounts = new Account[] { account };
+                }
+                else
+                {
+                    Account[] tempAccounts = new Account[accounts.Length + 1];
+                    for (int i = 0; i < accounts.Length; i++)
+                    {
+                        tempAccounts[i] = accounts[i];
+                        tempAccounts[tempAccounts.Length - 1] = account;
+                        accounts = tempAccounts;
+                    }
                 }
             }
-            Console.WriteLine($"\nAccount was created!\n{customer.ToString()}\n\n{account.ToString()}");
+            Console.WriteLine($"Account was created!\n{customer.ToString()}\n\n{account.ToString()}");
         }
         public void TopUpAccount(double sum, int id) 
         {
-            Account account = accounts[id];// TODO check id input
+            Account account = accounts[id - 1];
             if (account == null) 
             {
                 Console.WriteLine("Can't find account!");
@@ -58,12 +58,13 @@ namespace Bank.BL
             else 
             {
                 account.IncreaseBalance(sum);
-                Console.WriteLine($"The balance was increased! {account.ToString()}\nTime: {DateTime.Now}");
+                Console.Clear();
+                Console.WriteLine($"The balance was increased! \n{account.ToString()}\nTime: {DateTime.Now}");
             }
         }
         public void WithdrawMoney(double sum, int id) 
         {
-            Account account = accounts[id];
+            Account account = accounts[id - 1];
             if (account == null)
             {
                 Console.WriteLine("Can't find account!");
@@ -71,7 +72,8 @@ namespace Bank.BL
             else
             {
                 account.ReduceBalance(sum);
-                Console.WriteLine($"The balance was reduced! {account.ToString()}\nTime: {DateTime.Now}");
+                Console.Clear();
+                Console.WriteLine($"The balance was reduced! \n{account.ToString()}\nTime: {DateTime.Now}");
             }
         }
         public void DeleteAccount(int id) 
@@ -79,11 +81,33 @@ namespace Bank.BL
             Account[] tempAccounts = new Account[accounts.Length - 1];
             for (int i = 0, j = 0; i < accounts.Length; i++)
             {
-                if (i != id)
+                if (i != id - 1)
+                {
                     tempAccounts[j++] = accounts[i];
+                }
             }
             accounts = tempAccounts;
             Console.WriteLine("Account was deleted!");
+        }
+        public void FindAccount(int id)
+        {
+            bool check = true;
+            for (int i = 0; i < accounts.Length; i++)
+            {
+                check = false;
+                if (accounts[i].Id == id)
+                {
+                    Console.WriteLine(accounts[id - 1].ToString());
+                }
+                else 
+                {
+                    Console.WriteLine("Account wasn't found!");
+                }
+            }
+            if (check) 
+            {
+                Console.WriteLine("Account wasn't found!(no more accounts)");
+            }
         }
     }
 }
