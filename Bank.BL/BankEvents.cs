@@ -42,41 +42,41 @@ namespace Bank.BL
                     {
                         tempAccounts[i] = accounts[i];
                         tempAccounts[tempAccounts.Length - 1] = account;
-                        accounts = tempAccounts;
                     }
+                    accounts = tempAccounts;
                 }
             }
             Console.WriteLine($"Account was created!\n{customer.ToString()}\n\n{account.ToString()}");
         }
         public void TopUpAccount(double sum, int id) 
         {
-            Account account = accounts[id - 1];
+            Account account = accounts[id];
             if (account == null) 
             {
                 Console.WriteLine("Can't find account!");
             }
             else 
             {
-                account.IncreaseBalance(sum);
+                account.Balance += sum;
                 Console.Clear();
                 Console.WriteLine($"The balance was increased! \n{account.ToString()}\nTime: {DateTime.Now}");
             }
         }
         public void WithdrawMoney(double sum, int id) 
         {
-            Account account = accounts[id - 1];
+            Account account = accounts[id];
             if (account == null)
             {
                 Console.WriteLine("Can't find account!");
             }
             else
             {
-                account.ReduceBalance(sum);
+                account.Balance -= sum;
                 Console.Clear();
                 Console.WriteLine($"The balance was reduced! \n{account.ToString()}\nTime: {DateTime.Now}");
             }
         }
-        public void DeleteAccount(int id) 
+        public void DeleteAccount(int id) // TODO: to finish delete functionality
         {
             Account[] tempAccounts = new Account[accounts.Length - 1];
             for (int i = 0, j = 0; i < accounts.Length; i++)
@@ -94,19 +94,19 @@ namespace Bank.BL
             bool check = true;
             for (int i = 0; i < accounts.Length; i++)
             {
-                check = false;
                 if (accounts[i].Id == id)
                 {
-                    Console.WriteLine(accounts[id - 1].ToString());
+                    check = false;
+                    Console.WriteLine(accounts[id].ToString());
                 }
                 else 
                 {
-                    Console.WriteLine("Account wasn't found!");
+                    continue;
                 }
             }
             if (check) 
             {
-                Console.WriteLine("Account wasn't found!(no more accounts)");
+                Console.WriteLine("Account wasn't found!");
             }
         }
     }

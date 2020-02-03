@@ -31,7 +31,7 @@ namespace Bank.BL.Model
             {
                 throw new ArgumentException("Invalid date of birth!", nameof(birthDate));
             }
-            Id = ++counter;
+            Id = counter++;
             FirstName = firstName;
             LastName = lastName;
             BirthDate = birthDate;

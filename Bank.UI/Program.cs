@@ -21,6 +21,8 @@ namespace Bank.UI
             bool check;
             do
             {
+               // Console.WriteLine(menu.LogIn);
+
         start:  Console.WriteLine(menu.Services);
                 menu.Choose = Console.ReadLine();
                 Console.Clear();
@@ -246,6 +248,25 @@ namespace Bank.UI
                 }
             } while (check);
             Console.ReadLine();
-         }
+        }
+
+        //private static DateTime ParseDateTime(string value)
+        //{
+        //    DateTime birthDate;
+        //    while (true)
+        //    {
+        //        Console.Write($"Input {value} (mm.dd.yyyy): ");
+        //        if (DateTime.TryParse(Console.ReadLine(), out birthDate))
+        //        {
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine($"Неверный формат {value}");
+        //        }
+        //    }
+
+        //    return birthDate;
+        //}
     }
 }
