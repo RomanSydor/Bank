@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Bank.BL.Model
 {
+    [Serializable]
     public class Customer
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
+        public int Id { get; }
+        public string FirstName { get; }
         public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; }
         public override string ToString()
         {
             return $"Customer:{FirstName} {LastName}\nId: {Id}\nDate of birth: {BirthDate.ToShortDateString()}";

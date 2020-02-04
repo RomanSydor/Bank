@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bank.BL
 {
+    [Serializable]
     public class BankEvents
     {
         public Account Account = new Account();
@@ -19,12 +20,14 @@ namespace Bank.BL
             Console.Write("Input your last name: ");
             string lastName = Console.ReadLine();
             Console.Write("Input date of your birth(mm.dd.yyyy): ");
-            DateTime birthDate = DateTime.Parse(Console.ReadLine()); // TODO add TryParse to dataTime
+            DateTime birthDate = DateTime.Parse(Console.ReadLine());
+            Console.Write("Input password: ");
+            string password = Console.ReadLine();
             Console.Write("Start replenishment: $");
             double startBalance = double.Parse(Console.ReadLine());
             Console.Clear();
             Customer customer = new Customer(firstName, lastName, birthDate);
-            Account account = new Account(startBalance, (customer.FirstName + " " + customer.LastName));
+            Account account = new Account(startBalance, (customer.FirstName + " " + customer.LastName), password);
             if (account == null)
             {
                 Console.WriteLine("\nError of creation account!");
@@ -89,12 +92,12 @@ namespace Bank.BL
             accounts = tempAccounts;
             Console.WriteLine("Account was deleted!");
         }
-        public void FindAccount(int id)
+        public void FindAccount(int id, string password)
         {
             bool check = true;
             for (int i = 0; i < accounts.Length; i++)
             {
-                if (accounts[i].Id == id)
+                if (accounts[i].Id == id && accounts[i].Password == password)
                 {
                     check = false;
                     Console.WriteLine(accounts[id].ToString());
@@ -106,7 +109,7 @@ namespace Bank.BL
             }
             if (check) 
             {
-                Console.WriteLine("Account wasn't found!");
+                Console.WriteLine("Invalid id or password!");
             }
         }
     }

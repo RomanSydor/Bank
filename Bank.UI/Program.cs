@@ -16,257 +16,78 @@ namespace Bank.UI
             Account account = new Account();
             Customer customer = new Customer();
             BankEvents events = new BankEvents();
+            AccountController controller = new AccountController();
 
-            Console.Write(menu.Greeting);
-            bool check;
-            do
+            while (true)
             {
-               // Console.WriteLine(menu.LogIn);
+                Console.WriteLine("We are welcome you in RS Bank!");
+                Console.Write(menu.LogIn);
+                menu.Choose = ParseDouble(1, 2);
 
-        start:  Console.WriteLine(menu.Services);
-                menu.Choose = Console.ReadLine();
-                Console.Clear();
-                if (int.TryParse(menu.Choose, out int result) && result >= 1 && result <= 6)
+                if (menu.Choose == 1)
                 {
-                    Console.WriteLine($"Your choice: {result}\n");
-                    check = false;
-                    switch (menu.Choose) 
+                    while (true)
                     {
-                        case "1":
-                            try 
-                            { 
-                            Console.WriteLine("_Registration_");
-                            events.OpenAccount();
-                            }
-                            catch (FormatException)
-                            {
-                                Console.WriteLine("Invalid format!");
-                            }
-
-                            do
-                            {
-                                Console.WriteLine(menu.ReturnToMenu);
-                                menu.Choose = Console.ReadLine();
-                                Console.Clear();
-                                if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
-                                {
-                                    check = false;
-                                    if (menu.Choose == "1")
-                                    {
-                                        goto start;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Thanks for choosing us, bye!");
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("\nInvalid input!\nPleace, repeat:");
-                                    check = true;
-                                }
-                            } while (check);
-                            break;
-                        
-                        case "2":
-
-                            try
-                            {
-                                Console.Write("Id: ");
-                                int id = int.Parse(Console.ReadLine());
-                                Console.Write("Input amount of replenishment: $");
-                                menu.Sum = double.Parse(Console.ReadLine());
-                                events.TopUpAccount(menu.Sum, id);
-                            }
-                            catch (FormatException) 
-                            {
-                                Console.WriteLine("Invalid format!");
-                            }
-                            catch (IndexOutOfRangeException)
-                            {
-                                Console.WriteLine("Account wasn't found!");
-                            }
-                            do
-                            {
-                                Console.WriteLine(menu.ReturnToMenu);
-                                menu.Choose = Console.ReadLine();
-                                Console.Clear();
-                                if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
-                                {
-                                    check = false;
-                                    if (menu.Choose == "1")
-                                    {
-                                        goto start;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Thanks for choosing us, bye!");
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("\nInvalid input!\nPleace, repeat:");
-                                    check = true;
-                                }
-                            } while (check);
-                            break;
-                       
-                        case "3":
-                            
-                            try
-                            {
-                                Console.Write("Id: ");
-                                int id = int.Parse(Console.ReadLine());
-                                Console.Write("Input the output amount: $");
-                                menu.Sum = double.Parse(Console.ReadLine());
-                                events.WithdrawMoney(menu.Sum, id);
-                            }
-                            catch (FormatException)
-                            {
-                                Console.WriteLine("Invalid format!");
-                            }
-                            catch (IndexOutOfRangeException)
-                            {
-                                Console.WriteLine("Account wasn't found!");
-                            }
-
-                            do
-                            {
-                                Console.WriteLine(menu.ReturnToMenu);
-                                menu.Choose = Console.ReadLine();
-                                Console.Clear();
-                                if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
-                                {
-                                    check = false;
-                                    if (menu.Choose == "1")
-                                    {
-                                        goto start;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Thanks for choosing us, bye!");
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("\nInvalid input!\nPleace, repeat:");
-                                    check = true;
-                                }
-                            } while (check);
-                            break;
-                     
-                        case "4":
-                             
-                            try
-                            {
-                                Console.Write("Id: ");
-                                int id = int.Parse(Console.ReadLine());
-                                events.DeleteAccount(id);
-                            }
-                            catch (FormatException)
-                            {
-                                Console.WriteLine("Invalid format!");
-                            }
-                            catch (IndexOutOfRangeException)
-                            {
-                                Console.WriteLine("Account wasn't found!");
-                            }
-
-                            do
-                            {
-                                Console.WriteLine(menu.ReturnToMenu);
-                                menu.Choose = Console.ReadLine();
-                                Console.Clear();
-                                if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
-                                {
-                                    check = false;
-                                    if (menu.Choose == "1")
-                                    {
-                                        goto start;
-                                    }
-                                    else 
-                                    {
-                                        Console.WriteLine("Thanks for choosing us, bye!");
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("\nInvalid input!\nPleace, repeat:");
-                                    check = true;
-                                }
-                            } while (check);
-                            break;
-
-                        case "5":
-                            try
-                            {
-                                Console.Write("Id: ");
-                                int id = int.Parse(Console.ReadLine());
-                                events.FindAccount(id);
-                            }
-                            catch (FormatException)
-                            {
-                                Console.WriteLine("Invalid format!");
-                            }
-                            catch (IndexOutOfRangeException)
-                            {
-                                Console.WriteLine("Account wasn't found!");
-                            }
-                            do
-                            {
-                                Console.WriteLine(menu.ReturnToMenu);
-                                menu.Choose = Console.ReadLine();
-                                Console.Clear();
-                                if (int.TryParse(menu.Choose, out int result1) && result1 >= 1 && result1 <= 2)
-                                {
-                                    check = false;
-                                    if (menu.Choose == "1")
-                                    {
-                                        goto start;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Thanks for choosing us, bye!");
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("\nInvalid input!\nPleace, repeat:");
-                                    check = true;
-                                }
-                            } while (check);
-                            break;
-                        case "6":
-                            Console.WriteLine("Thanks for choosing us, bye!");
-                            break;
+                        try
+                        {
+                            events.accounts = controller.Load();
+                            Console.Write("Input account id: ");
+                            int id = int.Parse(Console.ReadLine());
+                            Console.Write("Input your password: ");
+                            string password = Console.ReadLine();
+                            Console.Clear();
+                            events.FindAccount(id, password);
+                            Console.WriteLine("\n" + menu.Services);
+                            menu.Choose = ParseDouble(1, 5);
+                            menu.MenuSwitch();
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Invalid format, try again!\n");
+                            continue;
+                        }
+                        break;
                     }
                 }
-                else
+                else if (menu.Choose == 2)
                 {
-                    Console.WriteLine("\nInvalid input!\nPleace, repeat:");
-                    check = true;
+                    while (true)
+                    {
+                        try
+                        {
+                            Console.WriteLine("_Registration_");
+                            events.OpenAccount();
+                            controller.Save(events.accounts);
+                            Console.WriteLine("\n" + menu.Services);
+                            menu.Choose = ParseDouble(1, 5);
+                            menu.MenuSwitch();
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Invalid format, try again!\n");
+                            continue;
+                        }
+                        break;
+                    }
                 }
-            } while (check);
+                break;
+            }
             Console.ReadLine();
         }
 
-        //private static DateTime ParseDateTime(string value)
-        //{
-        //    DateTime birthDate;
-        //    while (true)
-        //    {
-        //        Console.Write($"Input {value} (mm.dd.yyyy): ");
-        //        if (DateTime.TryParse(Console.ReadLine(), out birthDate))
-        //        {
-        //            break;
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine($"Неверный формат {value}");
-        //        }
-        //    }
-
-        //    return birthDate;
-        //}
+        private static double ParseDouble(int from, int to)
+        {
+            while (true)
+            {
+                if (double.TryParse(Console.ReadLine(), out double value) && (value >= from && value <= to))
+                {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid input, try again!");
+                }
+            }
+        }
     }
 }
