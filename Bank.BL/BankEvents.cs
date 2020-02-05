@@ -1,20 +1,19 @@
 ﻿using Bank.BL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank.BL
 {
     [Serializable]
     public class BankEvents
     {
-        public Account Account = new Account();
-        public Account[] accounts;
+        public static Account Account = new Account();
+        public static Account[] accounts;
+        public static AccountController controller = new AccountController();
 
-        public void OpenAccount()
-        {        
+
+        public Account[] OpenAccount()
+        {
+            accounts = controller.Load();
             Console.Write("Input your first name: ");
             string firstName = Console.ReadLine();
             Console.Write("Input your last name: ");
@@ -27,16 +26,16 @@ namespace Bank.BL
             double startBalance = double.Parse(Console.ReadLine());
             Console.Clear();
             Customer customer = new Customer(firstName, lastName, birthDate);
-            Account account = new Account(startBalance, (customer.FirstName + " " + customer.LastName), password);
-            if (account == null)
+            Account = new Account(startBalance, (customer.FirstName + " " + customer.LastName), password);
+            if (Account == null)
             {
                 Console.WriteLine("\nError of creation account!");
             }
-            else 
+            else
             {
-                if (accounts == null)
+                if (accounts.Length == 0)
                 {
-                    accounts = new Account[] { account };
+                    accounts = new Account[] { Account };
                 }
                 else
                 {
@@ -44,40 +43,56 @@ namespace Bank.BL
                     for (int i = 0; i < accounts.Length; i++)
                     {
                         tempAccounts[i] = accounts[i];
-                        tempAccounts[tempAccounts.Length - 1] = account;
+                        tempAccounts[tempAccounts.Length - 1] = Account;
                     }
                     accounts = tempAccounts;
+
                 }
             }
-            Console.WriteLine($"Account was created!\n{customer.ToString()}\n\n{account.ToString()}");
+            Console.WriteLine($"Account was created!\n{customer.ToString()}\n\n{Account.ToString()}");
+            controller.Save(accounts);
+            return accounts;
         }
-        public void TopUpAccount(double sum, int id) 
+        public Account TopUpAccount(double sum, int id)
         {
-            Account account = accounts[id];
-            if (account == null) 
-            {
-                Console.WriteLine("Can't find account!");
-            }
-            else 
-            {
-                account.Balance += sum;
-                Console.Clear();
-                Console.WriteLine($"The balance was increased! \n{account.ToString()}\nTime: {DateTime.Now}");
-            }
-        }
-        public void WithdrawMoney(double sum, int id) 
-        {
-            Account account = accounts[id];
-            if (account == null)
+            // accounts = controller.Load();
+            //for (int i = 0; i < accounts.Length; i++) 
+            //{
+            //    if (accounts[i].Password == password)
+            //    {
+            //        Account = accounts[i];
+            //    }
+            //}
+            Account = accounts[id];
+            if (Account == null)
             {
                 Console.WriteLine("Can't find account!");
             }
             else
             {
-                account.Balance -= sum;
+                Account.Balance += sum;
                 Console.Clear();
-                Console.WriteLine($"The balance was reduced! \n{account.ToString()}\nTime: {DateTime.Now}");
+                Console.WriteLine($"The balance was increased! \n{Account.ToString()}\nTime: {DateTime.Now}");
             }
+            controller.Save(accounts);
+            return Account;
+        }
+        public Account WithdrawMoney(double sum, int id)
+        {
+            //accounts = controller.Load();
+            Account = accounts[id];
+            if (Account == null)
+            {
+                Console.WriteLine("Can't find account!");
+            }
+            else
+            {
+                Account.Balance -= sum;
+                Console.Clear();
+                Console.WriteLine($"The balance was reduced! \n{Account.ToString()}\nTime: {DateTime.Now}");
+            }
+            controller.Save(accounts);
+            return Account;
         }
         public void DeleteAccount(int id) // TODO: to finish delete functionality
         {
@@ -92,8 +107,9 @@ namespace Bank.BL
             accounts = tempAccounts;
             Console.WriteLine("Account was deleted!");
         }
-        public void FindAccount(int id, string password)
+        public Account FindAccount(int id, string password)
         {
+            accounts = controller.Load();
             bool check = true;
             for (int i = 0; i < accounts.Length; i++)
             {
@@ -101,16 +117,25 @@ namespace Bank.BL
                 {
                     check = false;
                     Console.WriteLine(accounts[id].ToString());
+                    Account = accounts[id];
                 }
-                else 
+                else
                 {
                     continue;
                 }
             }
-            if (check) 
+            if (check)
             {
                 Console.WriteLine("Invalid id or password!");
             }
+            //controller.Save(accounts);
+            return Account;
+        }
+
+        public Account[] EndSession()
+        {
+            controller.Save(accounts);
+            return accounts;
         }
     }
 }

@@ -1,17 +1,12 @@
 ﻿using Bank.BL.Model;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank.BL
 {
     public class AccountController
     {
-        public void Save(Account[] accounts) 
+        public void Save(Account[] accounts)
         {
             var formatter = new BinaryFormatter();
 
@@ -21,7 +16,7 @@ namespace Bank.BL
             }
         }
 
-        public Account[] Load() 
+        public Account[] Load()
         {
             var formatter = new BinaryFormatter();
 
