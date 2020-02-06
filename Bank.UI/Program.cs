@@ -1,5 +1,4 @@
-﻿using Bank.BL;
-using System;
+﻿using System;
 
 namespace Bank.UI
 {
@@ -9,53 +8,33 @@ namespace Bank.UI
         {
             Menu menu = new Menu();
 
+            Console.WriteLine("We are welcome you in RS Bank!");
+
             while (true)
             {
-                Console.WriteLine("We are welcome you in RS Bank!");
-                Console.Write(menu.LogIn);
-                menu.Choose = ParseInt(1, 2);
+                menu.MenuSwitch(0);
 
                 if (menu.Choose == 1)
                 {
-                    while (true)
+                    menu.MenuSwitch(1);
+                    if(menu.Choose == 2) 
                     {
-                        menu.MenuSwitch(7);
-                        Console.WriteLine("\n" + menu.Services);
-                        menu.Choose = ParseInt(1, 5);
-                        menu.MenuSwitch(menu.Choose);
-                        break;
+                        Console.Clear();
+                        continue;
                     }
                 }
-                else if (menu.Choose == 2)
+
+                else if (menu.Choose == 2) 
                 {
-                    while (true)
+                    menu.MenuSwitch(2);
+                    if (menu.Choose == 2) 
                     {
-                        Console.WriteLine("_Registration_");
-                        menu.MenuSwitch(6);
-                        Console.WriteLine("\n" + menu.Services); //TODO: to fix bug with id = 0
-                        menu.Choose = ParseInt(1, 5);
-                        menu.MenuSwitch(menu.Choose);
-                        break;
+                        Console.Clear();
+                        continue;
                     }
                 }
                 break;
             }
-            Console.ReadLine();
-        }
-
-        private static int ParseInt(int from, int to)
-        {
-            while (true)
-            {
-                if (int.TryParse(Console.ReadLine(), out int value) && (value >= from && value <= to))
-                {
-                    return value;
-                }
-                else
-                {
-                    Console.WriteLine($"Invalid input, try again!");
-                }
-            }
-        }
+        }   
     }
 }

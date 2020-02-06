@@ -4,36 +4,39 @@ using System;
 
 namespace Bank.UI
 {
+    /// <summary>
+    /// Realised user interface
+    /// </summary>
     public class Menu
     {
         public string Services { get; } = "1)Top up your account;\n2)Withdraw money;\n3)Close accuont;\n4)Show account info;\n5)Exit;";
-        public string LogIn { get; } = "Log in:\n1)Sign in\n2)Registrate\n";
-        public string ReturnToMenu { get; } = "\nDo you want to return to the menu?\n1)yes\n2)no";
+        public string LogIn { get; } = "Log in:\n1)Sign in\n2)Registrate\n3)Exit\n";
+        public string MenuOrExit { get; } = "\n1)Menu\n2)Log out\n3)Exit";
         public string Password { get; set; }
         public double Sum { get; set; }
         public int Choose { get; set; }
+        public bool FindAccount { get; set; }
 
         public Account account = BankEvents.Account;
         public Account[] accounts = BankEvents.accounts;
         public BankEvents events = new BankEvents();
-        //public AccountController controller = new AccountController();
-
-        public void MenuSwitch(int choose)
+        
+        /// <summary>
+        /// Realised choosing of services interface
+        /// </summary>
+        /// <param name="choose"></param>
+        public void ServiceSwitch(int choose)
         {
-            // accounts = controller.Load();
             switch (choose)
             {
-                case 1:
+                case 1: //Input money
                     while (true)
                     {
                         try
                         {
-                        //    Console.WriteLine("Input password:");
-                        //    Password = Console.ReadLine();
                             Console.Write("Input amount of replenishment: $");
                             Sum = double.Parse(Console.ReadLine());
-                            account = events.TopUpAccount(Sum, account.Id);
-                            //controller.Save(accounts);
+                            account = events.InputMoney(Sum, account.Id);
                         }
                         catch (FormatException)
                         {
@@ -43,15 +46,14 @@ namespace Bank.UI
                         break;
                     }
                     break;
-                case 2:
+                case 2: // Output money
                     while (true)
                     {
                         try
                         {
                             Console.Write("Input the output amount: $");
                             Sum = double.Parse(Console.ReadLine());
-                            account = events.WithdrawMoney(Sum, account.Id);
-                            //controller.Save(accounts);
+                            account = events.OutputMoney(Sum, account.Id);
                         }
                         catch (FormatException)
                         {
@@ -72,7 +74,6 @@ namespace Bank.UI
                         try
                         {
                             events.DeleteAccount(account.Id);
-                            //controller.Save(accounts);
                         }
                         catch (FormatException)
                         {
@@ -87,7 +88,7 @@ namespace Bank.UI
                         break;
                     }
                     break;
-                case 4:
+                case 4: // Find account and show account info
                     while (true)
                     {
                         try
@@ -107,12 +108,10 @@ namespace Bank.UI
                         break;
                     }
                     break;
-                case 5:
-                    Console.WriteLine("Thanks for choosing us, bye!");
+                case 5: // Close app
                     events.EndSession();
-                    //controller.Save(accounts);
                     break;
-                case 6:
+                case 6: // Create account
                     while (true)
                     {
                         try
@@ -127,7 +126,7 @@ namespace Bank.UI
                         break;
                     }
                     break;
-                case 7:
+                case 7: //Sing in
                     while (true)
                     {
                         try
@@ -136,8 +135,15 @@ namespace Bank.UI
                             int id = int.Parse(Console.ReadLine());
                             Console.Write("Input your password: ");
                             string password = Console.ReadLine();
-                            Console.Clear();
                             account = events.FindAccount(id, password);
+                            if (account.Owner == null)
+                            {
+                                FindAccount = false;
+                            }
+                            else
+                            {
+                                FindAccount = true;
+                            }
                         }
                         catch (FormatException)
                         {
@@ -147,6 +153,98 @@ namespace Bank.UI
                         break;
                     }
                     break;
+            }
+        }
+        
+        /// <summary>
+        /// Realised start screen menu interface
+        /// </summary>
+        /// <param name="choose"></param>
+        public void MenuSwitch(int choose)
+        {
+            switch (choose)
+            {
+                case 0: // log in
+                    Console.Write(LogIn);
+                    Choose = ParseInt(1, 3);
+                    break;
+                case 1: // sing in menu
+                    while (true)
+                    {
+                        ServiceSwitch(7);
+                        if (FindAccount)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    while (true)
+                    {
+                        Console.WriteLine("\n" + Services);
+                        Choose = ParseInt(1, 5);
+                        ServiceSwitch(Choose);
+                        Console.WriteLine(MenuOrExit);
+                        Choose = ParseInt(1, 3);
+                        if(Choose == 1) 
+                        {
+                            Console.Clear();
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    break;
+                case 2: // registration menu
+                    while (true)
+                    {
+                        Console.WriteLine("_Registration_");
+                        ServiceSwitch(6);
+                        break;
+                    }
+                    while (true)
+                    {
+                        Console.WriteLine("\n" + Services); //TODO: to fix bug with id = 0
+                        Choose = ParseInt(1, 5);
+                        ServiceSwitch(Choose);
+                        Console.WriteLine(MenuOrExit);
+                        Choose = ParseInt(1, 3);
+                        if (Choose == 1)
+                        {
+                            Console.Clear();
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Realised checking of int input
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        private static int ParseInt(int from, int to)
+        {
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out int value) && (value >= from && value <= to))
+                {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid input, try again!");
+                }
             }
         }
     }

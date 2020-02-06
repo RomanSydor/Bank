@@ -2,6 +2,9 @@
 
 namespace Bank.BL.Model
 {
+    /// <summary>
+    /// Model of bank customer
+    /// </summary>
     [Serializable]
     public class Customer
     {

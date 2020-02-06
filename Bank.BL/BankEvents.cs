@@ -3,6 +3,9 @@ using System;
 
 namespace Bank.BL
 {
+    /// <summary>
+    /// Realised working bank accounts
+    /// </summary>
     [Serializable]
     public class BankEvents
     {
@@ -10,7 +13,10 @@ namespace Bank.BL
         public static Account[] accounts;
         public static AccountController controller = new AccountController();
 
-
+        /// <summary>
+        /// Realised create account logic 
+        /// </summary>
+        /// <returns></returns>
         public Account[] OpenAccount()
         {
             accounts = controller.Load();
@@ -53,7 +59,14 @@ namespace Bank.BL
             controller.Save(accounts);
             return accounts;
         }
-        public Account TopUpAccount(double sum, int id)
+
+        /// <summary>
+        /// Realised increase of bank account
+        /// </summary>
+        /// <param name="sum"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Account InputMoney(double sum, int id)
         {
             // accounts = controller.Load();
             //for (int i = 0; i < accounts.Length; i++) 
@@ -77,9 +90,15 @@ namespace Bank.BL
             controller.Save(accounts);
             return Account;
         }
-        public Account WithdrawMoney(double sum, int id)
+
+        /// <summary>
+        /// Realised reduce of bank account
+        /// </summary>
+        /// <param name="sum"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Account OutputMoney(double sum, int id)
         {
-            //accounts = controller.Load();
             Account = accounts[id];
             if (Account == null)
             {
@@ -94,6 +113,11 @@ namespace Bank.BL
             controller.Save(accounts);
             return Account;
         }
+
+        /// <summary>
+        /// Realised closing of bank account 
+        /// </summary>
+        /// <param name="id"></param>
         public void DeleteAccount(int id) // TODO: to finish delete functionality
         {
             Account[] tempAccounts = new Account[accounts.Length - 1];
@@ -107,6 +131,13 @@ namespace Bank.BL
             accounts = tempAccounts;
             Console.WriteLine("Account was deleted!");
         }
+
+        /// <summary>
+        /// Realised finding account and showing its info
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public Account FindAccount(int id, string password)
         {
             accounts = controller.Load();
@@ -115,9 +146,11 @@ namespace Bank.BL
             {
                 if (accounts[i].Id == id && accounts[i].Password == password)
                 {
+                    Console.Clear();
                     check = false;
                     Console.WriteLine(accounts[id].ToString());
                     Account = accounts[id];
+                    break;
                 }
                 else
                 {
@@ -128,10 +161,13 @@ namespace Bank.BL
             {
                 Console.WriteLine("Invalid id or password!");
             }
-            //controller.Save(accounts);
             return Account;
         }
 
+        /// <summary>
+        /// Realised app closing
+        /// </summary>
+        /// <returns></returns>
         public Account[] EndSession()
         {
             controller.Save(accounts);

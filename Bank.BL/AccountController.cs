@@ -3,9 +3,16 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Bank.BL
-{
+{ 
+    /// <summary>
+    /// Realised info saving in file
+    /// </summary>
     public class AccountController
     {
+        /// <summary>
+        /// Save info in file
+        /// </summary>
+        /// <param name="accounts"></param>
         public void Save(Account[] accounts)
         {
             var formatter = new BinaryFormatter();
@@ -16,6 +23,10 @@ namespace Bank.BL
             }
         }
 
+        /// <summary>
+        /// Load info from file
+        /// </summary>
+        /// <returns></returns>
         public Account[] Load()
         {
             var formatter = new BinaryFormatter();
